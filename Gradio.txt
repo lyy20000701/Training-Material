@@ -1,0 +1,31 @@
+import gradio as gr
+
+with gr.Blocks() as mychatbot:  # Blocks is a low-level API that allows 
+                                # you to create custom web applications
+    chatbot = gr.Chatbot()      # displays a chatbot
+    question = gr.Textbox()     # for user to ask a question
+    clear = gr.Button("Clear Conversation")  # Clear button
+    
+    # function to clear the conversation
+    def clear_messages():
+        # code to clear conversation...
+        print("Clearing message...")
+        
+    def chat(message, chat_history):
+        # replace content with the actual responses from a chatbot
+        content = "Responses from chatbot..."
+        chat_history.append((message, content))        
+        return "", chat_history
+
+    # wire up the event handler for Submit button (when user press Enter)
+    question.submit(fn = chat, 
+                    inputs = [question, chatbot], 
+                    outputs = [question, chatbot])
+
+    # wire up the event handler for the Clear Conversation button
+    clear.click(fn = clear_messages, 
+                inputs = None, 
+                outputs = chatbot, 
+                queue = False)
+
+mychatbot.launch()
